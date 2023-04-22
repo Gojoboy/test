@@ -1,0 +1,140 @@
+API Documentation
+
+Authentication
+
+`login`
+Authenticate a user with a username and password.
+
+Request
+method: „login“
+
+The request must include the following fields:
+Field     | Type   | Description
+method    | string | The method name (should be "login")
+username  | string | The user's username
+password  | string | The user's password
+
+Response
+The response will include the following fields:
+Field     | Type   | Description
+method    | string | The method name (should be "login")
+status    | string | The status of the request ("OK" or "FAIL")
+message   | string | An error message (if status is "FAIL")
+
+If the status is "FAIL", the message field will contain one of the following values:
+- "invalid login" if the username is invalid
+- "invalid password" if the password is invalid
+- "server error" if there was an error processing the request
+__________________________________________
+
+
+`registration`
+Register a new user with a username, name, and password.
+
+Request
+method: „registration“
+
+The request must include the following fields:
+Field     | Type   | Description
+method    | string | The method name (should be "registration")
+login     | string | The user's username
+name      | string | The user's name
+password  | string | The user's password
+
+Response
+The response will include the following fields:
+Field     | Type   | Description
+method    | string | The method name (should be "registration")
+status    | string | The status of the request ("OK" or "FAIL")
+message   | string | An error message (if status is "FAIL")
+
+If the status is "FAIL", the message field will contain one of the following values:
+- "invalid login" if the username is invalid
+- "invalid password" if the password is invalid
+- "server error" if there was an error processing the request
+
+__________________________________________
+
+
+`user_init`
+Initialize a user session and get the user ID. Client need to send it only after successful login.
+
+Request
+method: "user_init"
+
+The request must include the following fields:
+Field     | Type   | Description
+method    | string | The method name (should be "user_init")
+login     | string | The user's login
+
+Response
+The response will include the following fields:
+Field     | Type   | Description
+method    | string | The method name (should be "user_init")
+login     | string | Users login
+user_id   |  int   | The unique identifier of the user
+
+Client should save users login and id.
+
+__________________________________________
+
+
+`chat_init` (chat type 1, for two people)
+Initialize a private chat session between two users.
+
+Request
+method: "chat_init"
+
+The request must include the following fields:
+Field      | Type   | Description
+method     | string | The method name (should be "chat_init")
+chat_type  | number | The type of chat (should be 1 for private chat)
+user1_id   | number | The unique identifier of the first user
+user2_id   | number | The unique identifier of the second user
+
+Response
+The response will include the following fields:
+Field      | Type   | Description
+method     | string | The method name (should be "chat_init")
+chat_type  | number | The type of chat (should be 1 for private chat)
+chat_id    | number | The unique identifier of the chat session
+user1_id   | number | The unique identifier of the first user
+user2_id   | number | The unique identifier of the second user
+join_type  | number | The type of join (always 2 for closed private chat)
+
+(I will make soon for group)
+
+__________________________________________
+
+
+`message`
+Send a message in a chat session. (Only for type 1 - common message)
+
+Request
+method: "message"
+
+The request must include the following fields:
+Field         | Type   | Description
+method        | string | The method name (should be "message")
+message_type  | number | The type of message (should be 1 for now)
+user_id       | number | The unique identifier of the user sending the message
+chat_id       | number | The unique identifier of the chat session
+message_text  | string | The text of the message
+message_form  | number | The form of the message (always 1 for common message)
+
+Response
+The response will include the following fields:
+Field         | Type   | Description
+method        | string | The method name (should be "message")
+message_type  | number | The type of message (should be 1 for now)
+message_id    | number | The unique identifier of the message
+user_id       | number | The unique identifier of the user sending the message
+chat_id       | number | The unique identifier of the chat session
+message_text  | string | The text of the message
+message_form  | number | The form of the message (always 1 for common message)
+message_date  | string | The date and time when the message was sent (in string format)
+is_edited     | number | Indicates whether the message has been edited (always 0 for new messages)
+
+__________________________________________
+
+
