@@ -137,4 +137,66 @@ is_edited     | number | Indicates whether the message has been edited (always 0
 
 __________________________________________
 
+`chat_delete` 
+Delete chat and all related data from db
+
+Request
+method: "chat_delete"
+
+The request must include the following fields:
+Field      | Type   | Description
+method     | string | The method name (should be "chat_delete")
+chat_id    | number | The unique identifier of the first user
+
+
+Response
+The response will include the following fields:
+Field      | Type   | Description
+method     | string | The method name (should be "chat_delete")
+chat_id    | number | The unique identifier of the first user
+
+__________________________________________
+
+`edit_message`
+Edit a message in a chat session.
+
+Request
+method:"edit_message"
+
+The request must include the following fields:
+Field         | Type   | Description
+method        | string | The method name (should be "edit_message")
+chat_id       | int    | The unique identifier of the chat
+message_id    | int    | The unique identifier of the message
+edited_text   | string | The new text for the message
+
+Response
+The response will include the following fields:
+Field         | Type   | Description
+method        | string | The method name (should be "edit_message")
+chat_id       | int    | The unique identifier of the chat 
+message_id    | int    | The unique identifier of the edited message
+edited_text   | string | The new text for the message
+is_edited     | int    | Indicates whether the message has been edited (will be 1 because already edited)
+
+__________________________________________
+
+`delete_message`
+Delete a message from a chat session.
+
+Request
+method:"delete_message"
+
+The request must include the following fields:
+Field         | Type   | Description
+method        | string | The method name (should be "delete_message")
+chat_id       | int    | The unique identifier of the chat
+message_id    | int    | The unique identifier of the message to delete
+
+Response
+The response will include the following fields:
+Field         | Type   | Description
+method        | string | The method name (should be "delete_message")
+chat_id       | int    | The unique identifier of the chat
+message_id    | int    | The unique identifier of the deleted message
 

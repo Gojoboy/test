@@ -12,7 +12,12 @@ void login_error(int client_socket, int mtd) {
     json_object_object_add(response, "status", json_object_new_string("FAIL"));
     json_object_object_add(response, "message", json_object_new_string("invalid login"));
     const char *response_str = json_object_to_json_string(response);
-    write(client_socket, response_str, strlen(response_str));
+    int send_status = send(client_socket, response_str, strlen(response_str), 0);
+    if (send_status == -1) {
+        printf("Error sending error message");
+    } else if (send_status < strlen(response_str)) {
+        printf("\n Warning: not all bytes sent\n");
+    }
 }
 
 void password_error(int client_socket, int mtd) {
@@ -26,7 +31,12 @@ void password_error(int client_socket, int mtd) {
     json_object_object_add(response, "status", json_object_new_string("FAIL"));
     json_object_object_add(response, "message", json_object_new_string("invalid password"));
     const char *response_str = json_object_to_json_string(response);
-    write(client_socket, response_str, strlen(response_str));
+    int send_status = send(client_socket, response_str, strlen(response_str), 0);
+    if (send_status == -1) {
+        printf("Error sending error message");
+    } else if (send_status < strlen(response_str)) {
+        printf("\n Warning: not all bytes sent \n");
+    }
 }
 
 void server_error(int client_socket) {
@@ -35,7 +45,12 @@ void server_error(int client_socket) {
     json_object_object_add(response, "status", json_object_new_string("FAIL"));
     json_object_object_add(response, "message", json_object_new_string("server error"));
     const char *response_str = json_object_to_json_string(response);
-    write(client_socket, response_str, strlen(response_str));
+    int send_status = send(client_socket, response_str, strlen(response_str), 0);
+    if (send_status == -1) {
+        printf("Error sending error message");
+    } else if (send_status < strlen(response_str)) {
+        printf("\n Warning: not all bytes sent \n");
+    }
 }
 
 void unknown_method_error(int client_socket) {
@@ -43,7 +58,12 @@ void unknown_method_error(int client_socket) {
     json_object_object_add(response, "method", json_object_new_string("error"));
     json_object_object_add(response, "err", json_object_new_string("Unknown method"));
     const char *response_str = json_object_to_json_string(response);
-    write(client_socket, response_str, strlen(response_str));
+    int send_status = send(client_socket, response_str, strlen(response_str), 0);
+    if (send_status == -1) {
+        printf("Error sending error message");
+    } else if (send_status < strlen(response_str)) {
+        printf("\n Warning: not all bytes sent \n");
+    }
 }
 
 void plain_error(int client_socket) {
@@ -51,5 +71,10 @@ void plain_error(int client_socket) {
     json_object_object_add(response, "method", json_object_new_string("error"));
     json_object_object_add(response, "err", json_object_new_string("server error"));
     const char *response_str = json_object_to_json_string(response);
-    write(client_socket, response_str, strlen(response_str));
+    int send_status = send(client_socket, response_str, strlen(response_str), 0);
+    if (send_status == -1) {
+        printf("Error sending error message");
+    } else if (send_status < strlen(response_str)) {
+        printf("\n Warning: not all bytes sent \n");
+    }
 }

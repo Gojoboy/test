@@ -26,10 +26,8 @@ int main() {
     }
 
     //registration(client_socket);
-    login(client_socket);
-    if(logged_in) {
-        init_user(client_socket);
-    }
+    //login(client_socket);
+    init_user(client_socket);
     
     //listening for incoming messages
     struct json_object* json_received_obj;
@@ -39,9 +37,11 @@ int main() {
             exit(EXIT_FAILURE);
         }
         char* buffer = (char*)json_object_to_json_string(json_received_obj);
+        printf("\n RECEIVED: %s .", buffer);
         parse_message(buffer);
-        
+        free(buffer);
     }
+
     json_object_put(json_received_obj);
     close(client_socket);
     free(current_user.login);

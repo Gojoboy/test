@@ -132,7 +132,7 @@
 }*/
 /* search */
 .SearchEntry {
-    color: #72c9ee;
+    color: #000000;
     background: transparent;
     padding: 2px; 
     border: none;
@@ -189,7 +189,7 @@
 
 
 .ChatMessageEntry {
-    color: #72c9ee;
+    color: #000000;
     background: transparent;
     padding: 2px; 
     border: none;
@@ -212,45 +212,87 @@
     /* background: rgba(0,200,0,0.5); */
 }
 /* ======================================================================================================================== overlays */
-.OverlayMainBox {
-    color: #72c9ee;
-    background: transparent;
-    padding: 2px; 
+.OverlayStack {
+    background: rgba(0, 0, 0, 0.1);
     border: none;
-    border-radius: 0px;
     box-shadow: none;
-    border-color: transparent; 
 }
-.OverlayLabel {
-    color: #72c9ee;
-    background: transparent;
-    padding: 2px; 
+.OverlayMainBox {
+    background: #e1e1e1;
     border: none;
-    /* border-color: dimgray; */
+    border-radius: 5px;
+    box-shadow: none;
+}
+.OverlayName {
+    color: #000000;
+    background: transparent;
+    border: none;
+}
+.OverlayImageLabel {
+    background: transparent;
+    border: 1px;
+    border-radius: 5px;
+    border-color: greenyellow;
+}
+.OverlayNameLabel {
+    color: #000000;
+    background: transparent;
+    border: none;
+}
+.OverlayStatusLabel {
+    color: #000000;
+    background: transparent;
+    border: none;
+}
+.OverlayBioLabel {
+    color: #000000;
+    background: #999999;
+    border-radius: 5px;
+    padding: 5px;
+    border: none;
 }
 
-.Overlay {
-    color: #72c9ee;
-    background: transparent;
-    padding: 2px; 
-    border: none;
-    border-radius: 0px;
+.OverlayButton {
+    background: #e1e1e1;
+    border-color: #000000;
+    border-radius: 5px;
     box-shadow: none;
-    /* border-color: dimgray; */
 }
-.Overlay:hover {
-    padding: 2px; 
+.OverlayButton:hover {
+    background: #e8e8e8;
     box-shadow: none;
-    /* border: 2px; */
-    /* border-color: black; */
-    /* background: rgba(0,200,200,0.5); */
 }
-.Overlay:active {
+.OverlayButton:active {
+    background: #e1e1e1;
+    box-shadow: none;
+}
+.OverlayRedButton {
+    background: #e97777;
+    border-color: #555555;
+    border-radius: 5px;
+    box-shadow: none;
+}
+.OverlayRedButton:hover {
+    background: #ee5151;
+    box-shadow: none;
+}
+.OverlayRedButton:active {
+    background: #e97777;
+    box-shadow: none;
+}
+
+.OverlayEntryLabel {
+    background: #e1e1e1;
     color: black;
-    padding: 2px; 
+}
+.OverlayEntry {
+    background: #e1e1e1;
+    border-color: #555555;
+    border-width: 2px;
+}
+.OverlayEntry:focus  {
+    border-color: #000000;
     box-shadow: none;
-    /* border-color: dimgray; */
-    /* background: rgba(0,200,0,0.5); */
 }
 /* ============================================================================================================================= all */
 .CLCButton {
@@ -260,8 +302,8 @@
     border-color: transparent;
 }
 .CLCButton:hover {
-    border-radius: 1000px;
-    background: rgba(226, 226, 226, 0.9);
+    border-radius: 0px;
+    background: radial-gradient( rgba(0, 0, 0, 0.2), transparent );
 }
 .CLCButton:active {
     background: transparent;

@@ -4,6 +4,7 @@ void init_chat(int socket_fd, json_object *json_received_obj) {
     struct json_object *chat_type_obj;
     json_object_object_get_ex(json_received_obj, "chat_type", &chat_type_obj);
     int chat_type = json_object_get_int(chat_type_obj);
+    printf("\n INSIDE INIT CHAT \n");
     if (chat_type == 1) {
         private_chat(socket_fd, json_received_obj);
     }
@@ -30,6 +31,7 @@ void private_chat(int socket_fd, json_object *json_received_obj) {
         sqlite3_close(db);
         return;
     }
+    printf("\n INSIDE PRIVATE CHAT \n");
     char sql[1024];
     snprintf(sql, sizeof(sql), "INSERT INTO Chat (c_name, jt_id, ct_id) VALUES ('', %d, %d);", join_type, chat_type);
     char *err_msg;
@@ -63,14 +65,25 @@ void private_chat(int socket_fd, json_object *json_received_obj) {
     
     // Construct the JSON chat object
     struct json_object *json_chat_obj = json_object_new_object();
-    json_object_object_add(json_chat_obj, "method", json_object_new_string("init_chat"));
+    json_object_object_add(json_chat_obj, "method", json_object_new_string("chat_init"));
     json_object_object_add(json_chat_obj, "chat_type", json_object_new_int(chat_type));
     json_object_object_add(json_chat_obj, "chat_id", json_object_new_int((int)chat_id));
     json_object_object_add(json_chat_obj, "user1_id", json_object_new_int(user1_id));
     json_object_object_add(json_chat_obj, "user2_id", json_object_new_int(user2_id));
     json_object_object_add(json_chat_obj, "join_type", json_object_new_int(join_type));
     
-    broadcast_connection(json_received_obj, socket_fd, json_chat_obj);
+    int receiver_socket_fd1 = get_socket_fd_from_list(user1_id);
+    if (receiver_socket_fd1 != -1) {
+        char *json_str_message = json_object_to_json_string(json_chat_obj);
+        send(receiver_socket_fd1, json_str_message, strlen(json_str_message), 0);
+        printf("\n sent json to cleint (init chat): %s \n", json_str_message);
+    }
+    int receiver_socket_fd2 = get_socket_fd_from_list(user2_id);
+    if (receiver_socket_fd2 != -1) {
+        char *json_str_message = json_object_to_json_string(json_chat_obj);
+        send(receiver_socket_fd2, json_str_message, strlen(json_str_message), 0);
+        printf("\n sent json to cleint (init chat): %s \n", json_str_message);
+    }
 }
 
 void group_chat(int socket_fd, json_object *json_received_obj) {

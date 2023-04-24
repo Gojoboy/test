@@ -7,27 +7,23 @@ int send_json_object(int client_socket, struct json_object* json_obj) {
         perror("Error sending JSON object to server");
         return -1;
     }
+    printf("\n sent msg: %s \n", json_str);
     return 0;
 }
 
-//receive json from server
-int receive_json_object(int client_socket, struct json_object** json_obj) {
-    char buffer[BUFFER_SIZE];
+int receive_json_object(int socket_fd, struct json_object **json_obj) {
+    char buffer[4096];
     memset(buffer, 0, sizeof(buffer));
-    
-    if (recv(client_socket, buffer, sizeof(buffer), 0) == -1) {
-        perror("Error receiving response from server");
+
+    int bytes_received = read(socket_fd, buffer, sizeof(buffer));
+    if (bytes_received <= 0) {
         return -1;
     }
 
     *json_obj = json_tokener_parse(buffer);
-    if (*json_obj == NULL) {
-        perror("Error parsing JSON object received from server");
-        return -1;
-    }
-    
     return 0;
 }
+
 
 // parse received message
 void parse_message(char* buffer) {
@@ -100,7 +96,7 @@ void parse_message(char* buffer) {
             printf("Received status-message: %s \n", message);
         }
     }//Response from init_user method. We need to save user`s credentials. login and id.
-    else if (strcmp(method, "init_user") == 0) {
+    else if (strcmp(method, "user_init") == 0) {
         struct json_object* jlogin;
         struct json_object* juser_id;
         json_object_object_get_ex(jobj, "login", &jlogin);
@@ -130,7 +126,6 @@ void parse_message(char* buffer) {
         int join_type = json_object_get_int(jjoin_type);
         //may be save chat data in struct ?
         //here may be called function for render
-        printf("Was received init_chat msg. \n Chat id is : %i \n", chat_id);
     }
     else if (strcmp(method, "message") == 0) {
         char *message_text;
@@ -175,6 +170,12 @@ void parse_message(char* buffer) {
         printf("\n-----------------\n");
         printf("Chat ID: %i", chat_id);
         
+    }
+    if (strcmp(method, "chat_delete") == 0) {
+        struct json_object* jchat_id;
+        json_object_object_get_ex(jobj, "chat_id", &jchat_id);
+        int chat_id = json_object_get_int(jchat_id);
+        printf("\n ====CHAT DELETED : %i ==== \n", chat_id);
     }
     
     json_object_put(jobj);

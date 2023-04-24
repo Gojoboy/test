@@ -2,13 +2,13 @@
 
 void init_user(int socket_fd, json_object *json_received_obj) {
     struct json_object *login_obj;
-    printf("inside usr init");
+    printf("\n inside user init func \n");
     json_object_object_get_ex(json_received_obj, "login", &login_obj);
     char *login = (char*)json_object_get_string(login_obj);
     int user_id = get_user_id_from_db(login); // Perform database query to retrieve user ID
     // Construct the JSON object
     struct json_object *json_response_obj = json_object_new_object();
-    json_object_object_add(json_response_obj, "method", json_object_new_string("init_user"));
+    json_object_object_add(json_response_obj, "method", json_object_new_string("user_init"));
     json_object_object_add(json_response_obj, "login", json_object_new_string(login));
     json_object_object_add(json_response_obj, "user_id", json_object_new_int(user_id));
 
